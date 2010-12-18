@@ -59,32 +59,19 @@ class Profile
     end
   end
 
-
   def image_url= url
     return image_url if url == ''
-    if url.nil? || url.match(/^https?:\/\//)
-      super(url)
-    else
-      super(absolutify_local_url(url))
-    end
+    super(url)
   end
 
   def image_url_small= url
     return image_url if url == ''
-    if url.nil? || url.match(/^https?:\/\//)
-      super(url)
-    else
-      super(absolutify_local_url(url))
-    end
+    super(url)
   end
 
   def image_url_medium= url
     return image_url if url == ''
-    if url.nil? || url.match(/^https?:\/\//)
-      super(url)
-    else
-      super(absolutify_local_url(url))
-    end
+    super(url)
   end
 
   def date= params
@@ -104,10 +91,4 @@ class Profile
     self.last_name.strip! if self.last_name
   end
 
-  private
-  def absolutify_local_url url
-    pod_url = APP_CONFIG[:pod_url].dup
-    pod_url.chop! if APP_CONFIG[:pod_url][-1,1] == '/'
-    "#{pod_url}#{url}"
-  end
 end

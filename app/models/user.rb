@@ -25,6 +25,9 @@ class User
   key :visible_post_ids, Array, :typecast => 'ObjectId'
   key :visible_person_ids, Array, :typecast => 'ObjectId'
 
+  # JXU adding this field to record all the aspect this user is in
+  key :visible_aspect_ids, Array, :typecast => 'ObjectId' 
+
   key :getting_started, Boolean, :default => true
   key :disable_mail, Boolean, :default => false
 
@@ -49,7 +52,7 @@ class User
   many :contacts, :class => Contact, :foreign_key => :user_id
   many :visible_people, :in => :visible_person_ids, :class => Person # One of these needs to go
   many :raw_visible_posts, :in => :visible_post_ids, :class => Post
-  many :aspects, :class => Aspect, :dependent => :destroy
+  many :aspects, :class => Aspect, :in => :visible_aspect_ids, :dependent => :destroy # linking via the visible aspect ids
 
   many :services, :class => Service
   timestamps!

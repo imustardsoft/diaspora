@@ -27,6 +27,7 @@ class User
 
   # JXU adding this field to record all the aspect this user is in
   key :visible_aspect_ids, Array, :typecast => 'ObjectId' 
+  many :visible_aspects, :in => :visible_aspect_ids, :class => Aspect # linking via the visible aspect ids
 
   key :getting_started, Boolean, :default => true
   key :disable_mail, Boolean, :default => false
@@ -52,7 +53,7 @@ class User
   many :contacts, :class => Contact, :foreign_key => :user_id
   many :visible_people, :in => :visible_person_ids, :class => Person # One of these needs to go
   many :raw_visible_posts, :in => :visible_post_ids, :class => Post
-  many :aspects, :class => Aspect, :in => :visible_aspect_ids, :dependent => :destroy # linking via the visible aspect ids
+  many :aspects, :class => Aspect, :dependent => :destroy
 
   many :services, :class => Service
   timestamps!
@@ -139,6 +140,7 @@ class User
   end
 
   def dispatch_post(post, opts = {})
+    return # added by star, list the post  by aspect, no longer use contact
     aspect_ids = opts.delete(:to)
 
     Rails.logger.info("event=dispatch user=#{diaspora_handle} post=#{post.id.to_s}")
@@ -172,10 +174,17 @@ class User
     self.save
 
     post.socket_to_uid(id, :aspect_ids => aspect_ids) if post.respond_to? :socket_to_uid
-    target_aspects = aspects_from_ids(aspect_ids)
-    target_aspects.each do |aspect|
-      aspect.posts << post
-      aspect.save
+    
+    # by star
+#    target_aspects = aspects_from_ids(aspect_ids)
+#    target_aspects.each do |aspect|
+#      aspect.posts << post
+#      aspect.save
+#    end
+    aspects = self.visible_aspects.all(:id.in => aspect_ids)
+    aspects.each do |aspect|
+        aspect.posts << post
+        aspect.save
     end
   end
 
@@ -369,8 +378,9 @@ class User
   end
 
   def seed_aspects
-    self.aspects.create(:name => I18n.t('aspects.seed.family'))
-    self.aspects.create(:name => I18n.t('aspects.seed.work'))
+    # by star, notes the following line for don't generate the family and work aspects
+    #self.aspects.create(:name => I18n.t('aspects.seed.family'))
+    #self.aspects.create(:name => I18n.t('aspects.seed.work'))
   end
 
   def self.generate_key

@@ -1,11 +1,50 @@
 -#   Copyright (c) 2010, Diaspora Inc.  This file is
 -#   licensed under the Affero General Public License version 3 or later.  See
 -#   the COPYRIGHT file.
+:javascript
+  $(document).ready(function() {
+    $(".accept_invite").click(function(){
+      request_id = $(this).attr("request_id");
+      contact_id = $(this).attr("contact_id");
+      type = $(this).attr("type");
+      $(this).parent().remove();
+      $.ajax({
+        type: "DELETE",
+        url: "/requests/" + request_id,
+        data:{"contact_id":contact_id, "type":type}
+      });
+    });
+    $(".ignore_invite").click(function(){
+      request_id = $(this).attr("request_id");
+      type = $(this).attr("type");
+      $(this).parent().remove();
+      $.ajax({
+        type: "DELETE",
+        url: "/requests/" + request_id,
+        data:{"type":type}
+      });
+    });
+  });
+
 
 - if @request_count > 0
   #new_request_pane{:class => "everyone"}
     %h1.new_request{:style => 'text-align:center'}
       = new_request_link(@request_count)
+
+-# by star, list all the current user's requests
+- requests = Request.all(:to_id => current_user.person.id)
+- for r in requests
+  %div
+    - contact = Contact.first(:person_id => r.to_id, :user_id => r.from.owner_id, :pending => true)
+    - aspect = Aspect.first(:id => contact.aspect_ids)
+    = r.from.name + " invite you to join " + aspect.name + " aspect"
+    %a{:class => "accept_invite", :request_id => r.id, :contact_id => contact.id, :type => "yes"}
+      = "Accept "
+    = " | "
+    %a{:class => "ignore_invite", :request_id => r.id, :type => "no"}
+      = "Ignore"
+
 
 #left_pane.everyone
 

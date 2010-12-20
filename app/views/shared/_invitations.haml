@@ -1,9 +1,13 @@
 - if APP_CONFIG[:invites_off]
   = t('.invites_closed')
 -else
-  -if invites > 0
-    = link_to t('.invite_someone'), new_user_invitation_path, :title => t('.invite_someone')
-    = t('.invitations_left', :count => invites) 
-  - else
-    = t('.dont_have_now')
+  -# by star, change the folloing for delete the display of limit
+
+  -#-if invites > 0
+  -#  = link_to t('.invite_someone'), new_user_invitation_path, :title => t('.invite_someone')
+  -#  = t('.invitations_left', :count => invites)
+  -#- else
+  -#  = t('.dont_have_now')
+  = link_to t('.invite_someone'), new_user_invitation_path, :title => t('.invite_someone')
+  
 

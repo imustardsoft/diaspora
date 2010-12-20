@@ -9,9 +9,10 @@ class StatusMessagesController < ApplicationController
   respond_to :json, :only => :show
 
   def create
-
     if params[:status_message][:aspect_ids] == "all"
-      params[:status_message][:aspect_ids] = current_user.aspects.collect{|x| x.id}
+      # by star, all post into all the aspects that the current user been in 
+      #params[:status_message][:aspect_ids] = current_user.aspects.collect{|x| x.id}
+      params[:status_message][:aspect_ids] = current_user.visible_aspects.collect{|x| x.id}
     end
 
     photos = Photo.all(:id.in => [*params[:photos]], :diaspora_handle => current_user.person.diaspora_handle)
@@ -73,7 +74,10 @@ class StatusMessagesController < ApplicationController
   end
 
   def show
-    @status_message = current_user.find_visible_post_by_id params[:id]
+    # by star, change the @status_message
+    #@status_message = current_user.find_visible_post_by_id params[:id]
+    @status_message = StatusMessage.find params[:id]
+    
     comments_hash = Comment.hash_from_post_ids [@status_message.id]
     person_hash = Person.from_post_comment_hash comments_hash
     @comment_hashes = comments_hash[@status_message.id].map do |comment|

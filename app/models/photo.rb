@@ -7,6 +7,10 @@ class Photo < Post
   include MongoMapper::Document
   mount_uploader :image, ImageUploader
 
+  ####### by star ######
+  mount_uploader :document, DocumentUploader
+  ####### end ##########
+
   xml_accessor :remote_photo
   xml_accessor :caption
   xml_reader :status_message_id
@@ -15,6 +19,12 @@ class Photo < Post
   key :remote_photo_path
   key :remote_photo_name
   key :random_string
+
+  ######## by star ############
+  key :document, String
+  key :type, String
+  key :title, String
+  ####### end ##########
 
   key :status_message_id, ObjectId
   
@@ -37,14 +47,31 @@ class Photo < Post
     end
   end
 
+  ############# by star ##################
+
+#  def self.instantiate(params = {})
+#    photo = super(params)
+#    image_file = params.delete(:user_file)
+#    photo.random_string = gen_random_string(10)
+#
+#    photo.image.store! image_file
+#    photo
+#  end
+
   def self.instantiate(params = {})
     photo = super(params)
     image_file = params.delete(:user_file)
+    photo.type = params.delete(:type)
+    photo.title = params.delete(:title)
     photo.random_string = gen_random_string(10)
-
-    photo.image.store! image_file
+    if photo.type == "image"
+      photo.image.store! image_file
+    else
+      photo.document.store! image_file
+    end
     photo
   end
+  ############### end ############################
 
   def remote_photo
     image.url.nil? ? (remote_photo_path + '/' + remote_photo_name) : image.url
@@ -56,14 +83,27 @@ class Photo < Post
     self.remote_photo_name = remote_path.slice(name_start + 1, remote_path.length)
   end
 
+  ################ by star ####################
+#  def url(name = nil)
+#    if remote_photo_path
+#      name = name.to_s + "_" if name
+#      person.url.chop + remote_photo_path + "/" + name.to_s + remote_photo_name
+#    else
+#      image.url name
+#    end
+#  end
+
   def url(name = nil)
     if remote_photo_path
       name = name.to_s + "_" if name
       person.url.chop + remote_photo_path + "/" + name.to_s + remote_photo_name
-    else
+    elsif self.type == "image"
       image.url name
+    else
+      document.url
     end
   end
+  ############## end ####################
 
   def ensure_user_picture
     people = Person.all('profile.image_url' => absolute_url(:thumb_large) )
@@ -93,15 +133,28 @@ class Photo < Post
     return string
   end
 
+  ############# by star ###################
+#  def as_json(opts={})
+#    {
+#      :photo => {
+#        :id => self.id,
+#        :url => self.url(:thumb_medium),
+#        :caption => self.caption
+#      }
+#    }
+#  end
   def as_json(opts={})
     {
-      :photo => {
+      :ms_attachment => {
+        :type => self.type,
         :id => self.id,
         :url => self.url(:thumb_medium),
+        :title => self.title,
         :caption => self.caption
       }
     }
   end
+  ####### end ###############
   
   def self.hash_from_post_ids post_ids
     hash = {}

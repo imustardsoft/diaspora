@@ -9,9 +9,10 @@ Diaspora::Application.routes.draw do
   resources :services
   
   resources :notifications
-  resources :posts,           :only => [:show], :path => '/p/'
-
-
+  ############# by star ######################
+  #resources :posts,           :only => [:show], :path => '/p/'
+  resources :posts,           :only => [:show, :update], :path => '/p/'
+  ################### end #####################
 
   match '/people/share_with' => 'people#share_with', :as => 'share_with'
   resources :people do

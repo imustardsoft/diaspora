@@ -7,7 +7,9 @@
    var uploader = new qq.FileUploaderBasic({
        element: document.getElementById('file-upload'),
        params: {'photo' : {'pending' : 'true', 'aspect_ids' : "#{aspect_id}"}, 'set_profile_image' : "#{set_profile_image if defined?(set_profile_image)}"},
-       allowedExtensions: ['jpg', 'jpeg', 'png'],
+       //////by star, delete the limit of format ////
+       //allowedExtensions: ['jpg', 'jpeg', 'png'],
+       ////////// end //////
        action: "#{photos_path}",
        debug: true,
        button: document.getElementById('file-upload'),
@@ -32,16 +34,36 @@
         $("#publisher_spinner").fadeIn(100);
        },
        
+       /////////////////// by star /////////////////////////////
+       //onComplete: function(id, fileName, responseJSON){
+        //$('#fileInfo').text(fileName + ' completed').fadeOut(2000);
+        //$("#publisher_spinner").fadeOut(100);
+        //$('#file-upload').removeClass("loading");
+        //var id = responseJSON.data.photo.id;
+        //var url = responseJSON.data.photo.url;
+        //$('#new_status_message').append("<input type='hidden' value='" + id + "' name='photos[]' />");
+        //$('#photodropzone').append("<li><img src='" + url +"' data-id='" + id + "' /></li>");
+        //$('#publisher').find("input[type='submit']").removeAttr('disabled');
+       //}
+
        onComplete: function(id, fileName, responseJSON){
         $('#fileInfo').text(fileName + ' completed').fadeOut(2000);
         $("#publisher_spinner").fadeOut(100);
         $('#file-upload').removeClass("loading");
-        var id = responseJSON.data.photo.id;
-        var url = responseJSON.data.photo.url;
+        var type = responseJSON.data.ms_attachment.type
+        var id = responseJSON.data.ms_attachment.id;
+        var url = responseJSON.data.ms_attachment.url;
+        var title = responseJSON.data.ms_attachment.title;
+        if (type == "image"){
+          $('#photodropzone').append("<li><img src='" + url +"' data-id='" + id + "' /></li>");
+        }
+        else{
+          $('#photodropzone').append("<li><a href='"+ url +"'>"+ title +"</a></li>");
+        }
         $('#new_status_message').append("<input type='hidden' value='" + id + "' name='photos[]' />");
-        $('#photodropzone').append("<li><img src='" + url +"' data-id='" + id + "' /></li>");
         $('#publisher').find("input[type='submit']").removeAttr('disabled');
        }
+       //////////////////// end ////////////////////////////////////////
        
    });
  }

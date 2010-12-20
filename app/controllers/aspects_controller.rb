@@ -10,7 +10,11 @@ class AspectsController < ApplicationController
   respond_to :js
 
   def index
-    @posts  = current_user.visible_posts(:_type => "StatusMessage").paginate :page => params[:page], :per_page => 15, :order => 'created_at DESC'
+    # by star, override the @posts, that the current user can see all the post
+    #@posts  = current_user.visible_posts(:_type => "StatusMessage").paginate :page => params[:page], :per_page => 15, :order => 'created_at DESC'
+    aspect_ids = current_user.visible_aspects.map{|a| a.id}
+    @posts = Post.all(:aspect_ids => aspect_ids, :_type => "StatusMessage").paginate :page => params[:page], :per_page => 15, :order => 'created_at DESC'
+    
     @post_hashes = hashes_for_posts @posts
     @contacts = Contact.all(:user_id => current_user.id, :pending => false)
     @aspect_hashes = hashes_for_aspects @aspects.all, @contacts, :limit => 8
@@ -58,13 +62,22 @@ class AspectsController < ApplicationController
   end
 
   def show
-    @aspect = current_user.aspect_by_id params[:id]
+    # by star, change the @aspect for the current user
+    # can into the aspect which he is invitee
+    #@aspect = current_user.aspect_by_id params[:id]
+    @aspect = current_user.visible_aspects.find(params[:id])
+    
     @contacts = current_user.contacts(:pending => false)
     unless @aspect
       render :file => "#{Rails.root}/public/404.html", :layout => false, :status => 404
     else
-      @aspect_contacts = hashes_for_contacts Contact.all(:user_id => current_user.id, :aspect_ids.in => [@aspect.id], :pending => false)
-      @aspect_contacts_count = @aspect_contacts.count
+      # by star, change the @aspect_contacts for the current user who is invitee
+      # can saw all the people in the aspect
+      #@aspect_contacts = hashes_for_contacts Contact.all(:user_id => current_user.id, :aspect_ids.in => [@aspect.id], :pending => false)
+      @aspect_contacts = @aspect.visible_users
+      @aspect_contacts.delete(current_user)
+      
+      @aspect_contacts_count = @aspect_contacts.count - 1
 
       @all_contacts = hashes_for_contacts @contacts
 
@@ -113,8 +126,8 @@ class AspectsController < ApplicationController
   def add_to_aspect
     @person = Person.find(params[:person_id])
     @aspect = current_user.aspects.find(params[:aspect_id])
-    @contact = current_user.contact_for(@person)
-
+    #@contact = current_user.contact_for(@person)
+    @contact = false # by star, invite user must generate a request
     if @contact
       current_user.add_contact_to_aspect(@contact, @aspect)
     else
@@ -175,6 +188,7 @@ class AspectsController < ApplicationController
     people_hash = {}
     people.each{|p| people_hash[p.id] = p}
     contacts.map{|c| {:contact => c, :person => people_hash[c.person_id.to_id]}}
+    
   end
 
   def hashes_for_aspects aspects, contacts, opts = {}

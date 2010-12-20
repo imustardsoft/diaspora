@@ -21,12 +21,28 @@ class RequestsController < ApplicationController
         respond_with :location => requests_url
       end
     else
-      current_user.ignore_contact_request params[:id]
-      flash[:notice] = I18n.t 'requests.destroy.ignore'
-      head :ok
+#      current_user.ignore_contact_request params[:id]
+#      flash[:notice] = I18n.t 'requests.destroy.ignore'
+#      head :ok
+      # by star, add the following that invitee can accept or ignore
+      if params[:type] == "yes"
+        request = Request.find(params[:id])
+        contact = Contact.find(params[:contact_id])
+        aspect = Aspect.find_by_name(contact.aspects.to_s)
+        aspect.visible_users << current_user
+        aspect.save
+        current_user.visible_aspects << aspect
+        current_user.save
+        request.destroy
+        contact.update_attributes(:pending => false)
+      else
+        current_user.ignore_contact_request params[:id]
+        flash[:notice] = I18n.t 'requests.destroy.ignore'
+        head :ok
+      end
     end
   end
-
+      
  def create
    aspect = current_user.aspect_by_id(params[:request][:into])
    account = params[:request][:to].strip

@@ -14,7 +14,9 @@ class Contact
   key :person_id, ObjectId
   belongs_to :person
   validates_presence_of :person
-  validates_uniqueness_of :person_id, :scope => :user_id
+  
+  # by star, notes the following line for the user and invite somebody again
+  #validates_uniqueness_of :person_id, :scope => :user_id
 
   validate :not_contact_for_self
 

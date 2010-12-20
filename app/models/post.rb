@@ -15,6 +15,13 @@ class Post
   xml_reader :public
   xml_reader :created_at
 
+  ################### by star ##############################
+  key :like_user_ids, Array, :typecast => 'ObjectId'
+  key :dislike_user_ids, Array, :typecast => 'ObjectId'
+
+  many :like_users, :in => :like_user_ids, :class_name => 'User'
+  many :dislike_users, :in => :dislike_user_ids, :class_name => 'User'
+  #################### end #################################
 
   key :public, Boolean, :default => false
 

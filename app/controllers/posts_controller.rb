@@ -8,6 +8,33 @@ class PostsController < ApplicationController
   skip_before_filter :set_invites
   skip_before_filter :set_locale
 
+  ################ by star##########################
+  def update
+    post = Post.find(params[:id])
+    if params[:type] == "like"
+      if post.like_users.include?current_user
+        render :text => "exist"
+      elsif post.dislike_users.include?current_user
+        render :text => "exist"
+      else
+        post.like_users << current_user
+        post.save
+        render :text => post.like_users.count.to_s
+      end
+    else
+      if post.dislike_users.include?current_user
+        render :text => "exist"
+      elsif post.like_users.include?current_user
+        render :text => "exist"
+      else
+        post.dislike_users << current_user
+        post.save
+        render :text => post.dislike_users.count
+      end
+    end
+  end
+  ################### end ###################################
+  
   def show
     @post = Post.first(:id => params[:id], :public => true)
 

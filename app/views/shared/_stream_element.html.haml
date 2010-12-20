@@ -22,7 +22,9 @@
         %span.aspect_badge.public
           = t('the_world')
 
-      - elsif person.owner_id == current_user.id
+        -# by star, change the conditions that all the user in aspect can see
+        -# - elsif person.owner_id == current_user.id
+      - else
         %span.arrow ➔
         = aspect_badge(aspects_with_post(aspects, post))
 
@@ -32,5 +34,34 @@
     .info
       %span.time= link_to(how_long_ago(post), status_message_path(post))
       = comment_toggle(comments.length, @commenting_disabled)
+
+
+      -################## by star ##############################
+      %a{:class => "like_this", :data => post.id}
+        %img{:src => "/images/like.png"}
+        = "like"
+      %a{:class => "like-count"}
+        - if post.like_users.count > 0
+          = "("+post.like_users.count.to_s+")"
+
+      %a{:class => "dislike_this", :data => post.id}
+        %img{:src => "/images/dislike.png"}
+        = "Dislike"
+      %a{:class => "dislike-count"}
+        - if post.dislike_users.count > 0
+          = "("+post.dislike_users.count.to_s+")"
+
+    %div{:class => "like-people hidden"}
+      %img{:src => "/images/like.png"}
+      - for user in post.like_users
+        = user.name+","
+      = "like this post"
+
+    %div{:class => "dislike-people hidden"}
+      %img{:src => "/images/dislike.png"}
+      - for user in post.dislike_users
+        = user.name+","
+      = "dislike this post"
+      -################## end ##############################
 
     = render "comments/comments", :post_id => post.id, :comment_hashes => comments, :condensed => true, :commenting_disabled => defined?(@commenting_disabled)

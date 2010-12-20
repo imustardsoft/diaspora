@@ -12,11 +12,12 @@ class InvitationsController < Devise::InvitationsController
   end
 
   def create
-      if current_user.invites == 0
-        flash[:error] = I18n.t 'invitations.create.no_more'
-        redirect_to :back
-        return
-      end
+      # by star, notes the following delete the limit of invitation
+#      if current_user.invites == 0
+#        flash[:error] = I18n.t 'invitations.create.no_more'
+#        redirect_to :back
+#        return
+#      end
       aspect = params[:user].delete(:aspects)
       message = params[:user].delete(:invite_messages)
       emails = params[:user][:email].to_s.gsub(/\s/, '').split(/, */)

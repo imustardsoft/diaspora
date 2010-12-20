@@ -37,13 +37,14 @@
 - for r in requests
   %div
     - contact = Contact.first(:person_id => r.to_id, :user_id => r.from.owner_id, :pending => true)
-    - aspect = Aspect.first(:id => contact.aspect_ids)
-    = r.from.name + " invite you to join " + aspect.name + " aspect"
-    %a{:class => "accept_invite", :request_id => r.id, :contact_id => contact.id, :type => "yes"}
-      = "Accept "
-    = " | "
-    %a{:class => "ignore_invite", :request_id => r.id, :type => "no"}
-      = "Ignore"
+    - if contact
+      - aspect = Aspect.first(:id => contact.aspect_ids)
+      = r.from.name + " invite you to join " + aspect.name + " aspect"
+      %a{:class => "accept_invite", :request_id => r.id, :contact_id => contact.id, :type => "yes"}
+        = "Accept "
+      = " | "
+      %a{:class => "ignore_invite", :request_id => r.id, :type => "no"}
+        = "Ignore"
 
 
 #left_pane.everyone

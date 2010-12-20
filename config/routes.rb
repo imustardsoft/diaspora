@@ -12,6 +12,8 @@ Diaspora::Application.routes.draw do
   ############# by star ######################
   #resources :posts,           :only => [:show], :path => '/p/'
   resources :posts,           :only => [:show, :update], :path => '/p/'
+
+  resources :events,          :only => [:create]
   ################### end #####################
 
   match '/people/share_with' => 'people#share_with', :as => 'share_with'

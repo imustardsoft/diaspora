@@ -13,7 +13,7 @@ Diaspora::Application.routes.draw do
   #resources :posts,           :only => [:show], :path => '/p/'
   resources :posts,           :only => [:show, :update], :path => '/p/'
 
-  resources :events,          :only => [:create]
+  resources :events
   ################### end #####################
 
   match '/people/share_with' => 'people#share_with', :as => 'share_with'

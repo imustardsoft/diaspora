@@ -1,0 +1,12 @@
+= "RSVP:"
+- if current_user.vote_events.include?(event)
+  = current_user_event_type(event)
+- else
+  %span
+    %a{:class => "yes_event", :type => "Yes"}
+      = "Yes"
+    %a{:class => "no_event", :type => "No"}
+      = "No"
+    %a{:class => "maybe_event", :type => "Maybe"}
+      = "Maybe"
+    %hr

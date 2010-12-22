@@ -1,0 +1,13 @@
+- for event in @events
+  %div{:id => event.id}
+    %b
+      = link_to event.content, event_path(event.id)
+    %span.arrow ➔
+    = event_aspect_badge(event.aspect)
+
+    %br
+    = "by " + event.user.name
+    = event.created_at.strftime('%m/%d/%Y')
+    %br
+    = render 'shared/event', :event => event
+= will_paginate @events

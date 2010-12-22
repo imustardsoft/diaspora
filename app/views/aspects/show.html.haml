@@ -1,17 +1,9 @@
--#   Copyright (c) 2010, Diaspora Inc.  This file is
--#   licensed under the Affero General Public License version 3 or later.  See
--#   the COPYRIGHT file.
-
 - content_for :page_title do
   = @aspect.name
 
 .span-24.last
   %h2{:style=>"position:relative;margin-bottom:0;"}
     = @aspect
-
-  -# by star, add event form
-  %div
-    = render 'aspects/aspect_events'
 
   %span.aspect_contact_count{:style=>"color:#999;font-size:14px;"}
     = t('contacts', :count=>@aspect_contacts_count)
@@ -21,6 +13,9 @@
   = render 'aspects/aspect_contacts', :contacts => @aspect_contacts, :aspect => @aspect
   = render 'aspects/edit_aspect_pane', :contacts => @all_contacts, :aspect => @aspect
 
+  -# by star, add event form
+  %div#event_pane
+    = render 'aspects/aspect_events', :aspect => @aspect
 
 .span-15.last
   = render 'shared/publisher', :aspect => @aspect

@@ -42,6 +42,20 @@ module ApplicationHelper
     str.html_safe
   end
 
+  #by star####################################################
+  def event_aspect_badge aspect
+    str = "<span class='aspect_badge single'><a href=#{aspect_path(aspect)}>#{aspect.name}</a></span>"
+    str.html_safe
+  end
+
+  def current_user_event_type event
+    str = "you select "
+    str += "<b>Yes</b><hr>" if event.yes_users.include?(current_user)
+    str += "<b>No</b><hr>" if event.no_users.include?(current_user)
+    str += "<b>Maybe</b><hr>" if event.maybe_users.include?(current_user)
+    str.html_safe
+  end
+  ############# end ###########################################
   def aspect_links aspects, opts={}
     str = ""
     aspects.each do |a|

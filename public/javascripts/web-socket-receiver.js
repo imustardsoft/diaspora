@@ -112,6 +112,12 @@ processPerson: function(response){
     }
   },
 
+  // added by star, for create event
+  addEventToStream: function(html){
+   $('#event_pane').html('').append(html);
+  },
+  ////////////// end /////////////////////////
+  
   onPageForClass: function(className){
     return (location.href.indexOf(className) != -1 );
   },

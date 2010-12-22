@@ -29,6 +29,10 @@ class User
   key :visible_aspect_ids, Array, :typecast => 'ObjectId' 
   many :visible_aspects, :in => :visible_aspect_ids, :class => Aspect # linking via the visible aspect ids
 
+  # by star, if this user vote one event, will add to event_ids
+  key :event_ids, Array, :typecast => 'ObjectId'
+  many :vote_events, :in => :event_ids, :class => Event
+
   key :getting_started, Boolean, :default => true
   key :disable_mail, Boolean, :default => false
 
@@ -54,7 +58,7 @@ class User
   many :visible_people, :in => :visible_person_ids, :class => Person # One of these needs to go
   many :raw_visible_posts, :in => :visible_post_ids, :class => Post
   many :aspects, :class => Aspect, :dependent => :destroy
-
+  many :events, :class => Event
   many :services, :class => Service
   timestamps!
   #after_create :seed_aspects

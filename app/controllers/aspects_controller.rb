@@ -206,6 +206,7 @@ class AspectsController < ApplicationController
       hash
     end
   end
+  
   def hashes_for_posts posts
     post_ids = []
     post_person_ids = []

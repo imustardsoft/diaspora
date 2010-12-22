@@ -14,7 +14,7 @@ class Aspect
     
   many :contacts, :foreign_key => 'aspect_ids', :class_name => 'Contact'
   many :posts,    :in => :post_ids, :class_name => 'Post'
-
+  many :events,  :class_name => 'Event'
   belongs_to :user, :class_name => 'User'
 
   validates_presence_of :name

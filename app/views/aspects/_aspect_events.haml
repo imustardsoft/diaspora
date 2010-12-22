@@ -1,0 +1,17 @@
+= link_to "See All", events_path
+= form_for (Event.new, :remote => true) do |event|
+  = event.hidden_field :aspect_id, :value => aspect.id
+  = event.text_field :content
+  = event.submit
+
+- events = aspect.events.sort("created_at desc").limit(2)
+- for event in events
+  %div{:id => event.id}
+    %b
+      = link_to event.content, event_path(event.id)
+    %br
+    = "by " + event.user.name
+    = event.created_at.strftime('%m/%d/%Y')
+    %br
+    = render 'shared/event', :event => event
+    

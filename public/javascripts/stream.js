@@ -5,6 +5,75 @@
 
 var Stream = {
   initialize: function() {
+    //////////////////////////////by star, for like and dislike///////////////////////
+    $(".like_this").live("click", function(){
+      node = $(this).next();
+      $.ajax({
+        type: "PUT",
+        data: {"type":"like"},
+        url: "/p/" + $(this).attr("data"),
+        success: function (data) {
+          if (data == "exist"){
+            alert("You have vote this post");
+          }
+          else{
+            node.html("").append("("+data+")");
+          }
+        }
+      });
+    });
+
+    $(".dislike_this").live("click", function(){
+      node = $(this).next();
+      $.ajax({
+        type: "PUT",
+        data: {"type":"dislike"},
+        url: "/p/" + $(this).attr("data"),
+        success: function (data) {
+          if (data == "exist"){
+            alert("You have vote this post");
+          }
+          else{
+            node.html("").append("("+data+")");
+          }
+        }
+      });
+    });
+
+    $(".like-count").live("click", function(){
+      $(this).parent().next().removeClass("hidden");
+    });
+
+    $(".dislike-count").live("click",function(){
+      $(this).parent().next().next().removeClass("hidden");
+    });
+    //////////////////////////////by star, for create event///////////////////////
+    $(".new_event").live('ajax:success', function(data, json, xhr) {
+      json = $.parseJSON(json);
+      WebSocketReceiver.addEventToStream(json['html']);
+    });
+    $(".new_event").live('ajax:failuer', function(data, json, xhr) {
+      alert('failed to create event!');
+    });
+
+    $(".yes_event, .no_event, .maybe_event").live("click", function(){
+      var id = $(this).parent().parent().attr("id");
+      var type = $(this).attr("type");
+      var node = $(this).parent();
+      $.ajax({
+        type: "PUT",
+        url: "/events/" + id,
+        data:{"type":type},
+        success: function (data) {
+          if (data == 'ok'){
+            node.html("").append("you select <b>" + type+"</b><hr>");
+          }
+        }
+      });
+    });
+    ///////////// end //////////////////////////////////////////////////////
+    
+    
     var $stream = $(".stream");
     var $publisher = $("#publisher");
 

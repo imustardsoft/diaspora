@@ -47,7 +47,12 @@
 
       %p
         - for photo in @photo.status_message.photos
-          = link_to (image_tag photo.url(:thumb_small)), object_path(photo)
+          -# by star
+          -# = link_to (image_tag photo.url(:thumb_small)), object_path(photo)
+          - if photo.type == "image"
+            = link_to (image_tag photo.url(:thumb_small)), object_path(photo)
+          - else
+            = link_to photo.title, photo.document.url
 
   %h4= t('_comments')
 

@@ -6,6 +6,29 @@
 var Stream = {
   initialize: function() {
     //////////////////////////////by star, for like and dislike///////////////////////
+    //for accept or ignore request
+    $(".accept_invite").click(function(){
+      request_id = $(this).attr("request_id");
+      contact_id = $(this).attr("contact_id");
+      type = $(this).attr("type");
+      $(this).parent().remove();
+      $.ajax({
+        type: "DELETE",
+        url: "/requests/" + request_id,
+        data:{"contact_id":contact_id, "type":type}
+      });
+    });
+    $(".ignore_invite").click(function(){
+      request_id = $(this).attr("request_id");
+      type = $(this).attr("type");
+      $(this).parent().remove();
+      $.ajax({
+        type: "DELETE",
+        url: "/requests/" + request_id,
+        data:{"type":type}
+      });
+    });
+    //for like or dislike
     $(".like_this").live("click", function(){
       node = $(this).next();
       $.ajax({

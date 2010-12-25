@@ -6,9 +6,10 @@
   = include_javascripts :aspects
 
 #edit_aspect_pane
-  - if @contacts.count > 0
-    %h4= t('.add_existing')
-    = render 'shared/contact_list', :aspect_id => aspect.id, :contact_hashes => contacts, :manage => defined?(manage)
+  -# notes add existing contacts
+  -#- if @contacts.count > 0
+    -#%h4= t('.add_existing')
+    -#= render 'shared/contact_list', :aspect_id => aspect.id, :contact_hashes => contacts, :manage => defined?(manage)
 
   = render 'shared/add_contact', :aspect_id => aspect.id
 

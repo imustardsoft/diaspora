@@ -62,17 +62,24 @@
   .section.contact_pictures
     %h3
       .right.description{:style => "top:-4px"}
-        = @contact_hashes.count
-      = t('.all_contacts')
+        -# notes the count of the contact in index page
+        -#= @contact_hashes.count
 
-    - for contact in @contact_hashes
-      = person_image_link(contact[:person])
+      -# by star, change from 'all contacts' to 'find contact'
+      -#= t('.all_contacts')
+      = "Find contacts"
 
-    - if @contacts.count == 0
-      %h4
-        = t('.no_contacts')
-      = form_tag(people_path, :method => 'get') do
-        = text_field_tag 'q', nil, :placeholder => t('search'), :type => 'search', :results => 5
+    -# delete all contacts
+    -#- for contact in @contact_hashes
+      -#= person_image_link(contact[:person])
+
+    -#- if @contacts.count == 0
+    %h4
+      -# change the display of 'no contacts'
+      -#= t('.no_contacts')
+      = "Find your contacts here. "
+    = form_tag(people_path, :method => 'get') do
+      = text_field_tag 'q', nil, :placeholder => t('search'), :type => 'search', :results => 5
 
   .section
     %h3= t('shared.invitations.invites')

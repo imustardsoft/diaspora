@@ -1,7 +1,8 @@
 - for event in @events
   %div{:id => event.id}
+    %img{:src => "/images/event.jpg"}
     %b
-      = link_to event.content, event_path(event.id)
+      = event.content
     %span.arrow ➔
     = event_aspect_badge(event.aspect)
 

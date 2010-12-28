@@ -29,41 +29,28 @@ var Stream = {
       });
     });
     //for like or dislike
-    $(".like_this").live("click", function(){
-      node = $(this).next();
+    $(".like_this, .cancel_like").live("click", function(){
+      node = $(this).parent().next().find("span");
+      var type = $(this).attr("class");
+      if (type == "like_this"){
+        $(this).addClass("hidden");
+        $(this).next().removeClass("hidden");
+      }
+      else{
+        $(this).prev().removeClass("hidden");
+        $(this).addClass("hidden");
+      }
       $.ajax({
         type: "PUT",
-        data: {"type":"like"},
+        data: {"type":$(this).attr("type")},
         url: "/p/" + $(this).attr("data"),
-        success: function (data) {
-          if (data == "exist"){
-            alert("You have vote this post");
-          }
-          else{
-            node.html("").append("("+data+")");
-          }
+        success: function(data){
+          node.html("").append(data);
         }
       });
     });
 
-    $(".dislike_this").live("click", function(){
-      node = $(this).next();
-      $.ajax({
-        type: "PUT",
-        data: {"type":"dislike"},
-        url: "/p/" + $(this).attr("data"),
-        success: function (data) {
-          if (data == "exist"){
-            alert("You have vote this post");
-          }
-          else{
-            node.html("").append("("+data+")");
-          }
-        }
-      });
-    });
-
-    $(".like-count").live("click", function(){
+    $(".list").live("click", function(){
       $(this).parent().next().removeClass("hidden");
     });
 

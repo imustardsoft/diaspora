@@ -22,8 +22,8 @@
         %span.aspect_badge.public
           = t('the_world')
 
-        -# by star, change the conditions that all the user in aspect can see
-        -# - elsif person.owner_id == current_user.id
+        / by star, change the conditions that all the user in aspect can see
+        / - elsif person.owner_id == current_user.id
       - else
         %span.arrow ➔
         = aspect_badge(aspects_with_post(aspects, post))
@@ -37,31 +37,32 @@
 
 
       -################## by star ##############################
-      %a{:class => "like_this", :data => post.id}
-        %img{:src => "/images/like.png"}
-        = "like"
-      %a{:class => "like-count"}
-        - if post.like_users.count > 0
-          = "("+post.like_users.count.to_s+")"
-
-      %a{:class => "dislike_this", :data => post.id}
-        %img{:src => "/images/dislike.png"}
-        = "Dislike"
-      %a{:class => "dislike-count"}
-        - if post.dislike_users.count > 0
-          = "("+post.dislike_users.count.to_s+")"
-
-    %div{:class => "like-people hidden"}
       %img{:src => "/images/like.png"}
-      - for user in post.like_users
-        = user.name+","
-      = "like this post"
+      - unless post.like_users.include?current_user
+        %a{:class => "like_this", :data => post.id, :type => "like"}
+          = "Like"
+        %a{:class => "cancel_like hidden", :data => post.id, :type => "cancel"}
+          = "Cancel"
+      - else
+        %a{:class => "like_this hidden", :data => post.id, :type => "like"}
+          = "Like"
+        %a{:class => "cancel_like", :data => post.id, :type => "cancel"}
+          = "Cancel"
 
-    %div{:class => "dislike-people hidden"}
-      %img{:src => "/images/dislike.png"}
-      - for user in post.dislike_users
-        = user.name+","
-      = "dislike this post"
+    %div{:class => "like-people"}
+      %span.people_count
+        - if post.like_users.count > 0
+          %img{:src => "/images/like.png"}
+          - if post.like_users.include?(current_user)
+            - if post.like_users.count == 1
+              = "I like this post"
+            - else
+              = "You and " + (post.like_users.count-1).to_s + "people like this post"
+          - else
+            = post.like_users.count.to_s + "people like this post"
+      %div.people_list.hidden
+        - for user in post.like_users
+          = user.name + ","
       -################## end ##############################
 
     = render "comments/comments", :post_id => post.id, :comment_hashes => comments, :condensed => true, :commenting_disabled => defined?(@commenting_disabled)

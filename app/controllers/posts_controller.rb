@@ -12,24 +12,22 @@ class PostsController < ApplicationController
   def update
     post = Post.find(params[:id])
     if params[:type] == "like"
-      if post.like_users.include?current_user
-        render :text => "exist"
-      elsif post.dislike_users.include?current_user
-        render :text => "exist"
+      count = post.like_users.count
+      post.like_users << current_user
+      post.save
+      if count > 0
+        render :text => "<a class='list'>I and " + count.to_s + " people like this post</a>"
       else
-        post.like_users << current_user
-        post.save
-        render :text => post.like_users.count.to_s
+        render :text => "I like this post"
       end
     else
-      if post.dislike_users.include?current_user
-        render :text => "exist"
-      elsif post.like_users.include?current_user
-        render :text => "exist"
+      post.like_user_ids.delete current_user.id
+      post.save
+      count = post.like_users.count
+      if count > 0
+        render :text => "<a class='list'>"+ count.to_s + " people like this post</a>"
       else
-        post.dislike_users << current_user
-        post.save
-        render :text => post.dislike_users.count
+        render :text => ""
       end
     end
   end

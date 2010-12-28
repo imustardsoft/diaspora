@@ -8,6 +8,13 @@ class Event
   timestamps!
 
   key :content, String
+  key :location, String
+
+  key :from_date, String
+  key :from_time, String
+  key :to_date, String
+  key :to_time, String
+
   key :aspect_id, ObjectId
   key :yes_user_ids, Array, :typecast => 'ObjectId'
   key :no_user_ids, Array, :typecast => 'ObjectId'

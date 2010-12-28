@@ -1,17 +1,39 @@
+:javascript
+  //$("#datepicker").datepicker({minDate: 0});
+  $(function() {
+    $( ".datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true
+    });
+  });
+
+%a.event_form
+  = "New Event"
 = link_to "See All", events_path
-= form_for (Event.new, :remote => true) do |event|
-  = event.hidden_field :aspect_id, :value => aspect.id
-  = event.text_field :content
-  = event.submit
+%br
+%div#event_form.hidden
+  = form_for (Event.new, :remote => true) do |event|
+    = event.hidden_field :aspect_id, :value => aspect.id
+    = "Title:"
+    = event.text_field :content
+    = "Time:"
+    %br
+    = event.text_field :from_date, :class => "datepicker", :size => 5
+    = "to"
+    = event.text_field :to_date, :class => "datepicker"
+    = "Location:"
+    = event.text_field :location
+    = event.submit
 
 - events = aspect.events.sort("created_at desc").limit(2)
 - for event in events
   %div{:id => event.id}
     %b
-      = link_to event.content, event_path(event.id)
+      = event.content
     %br
     = "by " + event.user.name
-    = event.created_at.strftime('%m/%d/%Y')
+    %br
+    = "from " + event.from_date + " to " +  event.to_date
     %br
     = render 'shared/event', :event => event
     

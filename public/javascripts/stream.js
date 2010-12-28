@@ -71,6 +71,15 @@ var Stream = {
       $(this).parent().next().next().removeClass("hidden");
     });
     //////////////////////////////by star, for create event///////////////////////
+    $(".event_form").live("click", function(){
+      var status = $("#event_form").attr("class");
+      if (status == "hidden"){
+        $("#event_form").removeClass("hidden");
+      }
+      else{
+        $("#event_form").addClass("hidden");
+      }
+    })
     $(".new_event").live('ajax:success', function(data, json, xhr) {
       json = $.parseJSON(json);
       WebSocketReceiver.addEventToStream(json['html']);

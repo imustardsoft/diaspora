@@ -44,17 +44,17 @@ default:
   # Setting this to true enables diaspora's "send email" functionality
   # requiring meaningful smtp_* settings. These are options for RoR's
   # ActionMailer class.
-  mailer_on: false
+  mailer_on: true
 
   # Address/port to smtp server handing outgoing mail.
-  smtp_address: 'smtp.example.com'
+  smtp_address: 'smtp.gmail.com'
   smtp_port: '587'
 
   # Domain administered of smtp server.
   smtp_domain: 'example.com'
 
   # Sender address in diaspora's outgoing mail.
-  smtp_sender_address: 'no-reply@joindiaspora.com'
+  smtp_sender_address: 'admin@diaspora'
 
   # Authentication required to send mail. Use one of 'one','plain',
   # 'login' or 'cram-md5'. Use 'none' if server do not support
@@ -63,26 +63,22 @@ default:
 
   # Credentails possibly required to log in to SMTP server if
   # smtp_authentication != 'none'
-  smtp_username: 'smtp_username'
-  smtp_password: 'secret'
+  smtp_username: 'imustardsoft.shares'
+  smtp_password: 'imustardsoft'
 
   #google analytics key, if false, it won't include the javascript
   google_a_site: false
-  
+
   #piwik integration if not set, no javascript included
-  piwik_id: 
+  piwik_id:
   # the site url in raw format (e.g. pikwik.examplehost.com)
-  piwik_url: 
-  
+  piwik_url:
+
 
   #cloudfiles username and api-key, used for backups
-  cloudfiles_username: 'example'
-  cloudfiles_api_key:  'abc123'
+  cloudfiles_username: 'imustardsoft.shares'
+  cloudfiles_api_key:  'imustardsoft'
   invites_off: false
-
-  #cloudfiles bucket and CDN for photo uploads
-  #cloudfiles_bucket: 'example_bucket'
-  #cloudfiles_cdn_url: 'http://xxxxxx.cdn.rackspacecloud.com'
 
 development:
 

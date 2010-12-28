@@ -42,10 +42,6 @@ class EventsController < ApplicationController
     @events = @events.paginate :page => params[:page], :per_page => 15, :order => 'created_at desc'
   end
 
-  def show
-    @event = Event.find(params[:id])
-  end
-
   def destory
     
   end

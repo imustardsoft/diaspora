@@ -12,6 +12,7 @@ class StatusMessage < Post
   xml_name :status_message
   xml_reader :message
 
+  key :tags, Array
   key :message, String
   many :photos, :class => Photo, :foreign_key => :status_message_id, :dependent => :destroy
   validate :message_or_photos_present?

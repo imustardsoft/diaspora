@@ -18,6 +18,7 @@ set :scm, :git
 set :user, all['user']
 #set :user, ARGV[0]
 set :password, all['password'] if all['password']
+set :port, all['port']
 set :scm_verbose, true
 set :repository, all['repo']
 set :branch, all['branch']
@@ -28,10 +29,13 @@ set :deploy_via, :checkout
 #
 set :rails_env, ENV['rails_env'] || ENV['RAILS_ENV'] || all['default_env']
 
-role :tom,    "tom.joindiaspora.com"
-backers.each{ |backer|
-  role :backer, "#{backer['username']}.joindiaspora.com", :number => backer['number']
-}
+role :app, "64.147.122.43"
+role :web, "64.147.122.43"
+role :db,  "64.147.122.43", :primary => true
+#role :tom,    "tom.joindiaspora.com"
+#backers.each{ |backer|
+#  role :backer, "#{backer['username']}.joindiaspora.com", :number => backer['number']
+#}
 
 #role :ci, "ci.joindiaspora.com"
 # If you are using Passenger mod_rails uncomment this:

@@ -1,0 +1,19 @@
+-#added by star
+
+%h2
+  = Post
+- for post in @posts
+  %img{:src => "/images/icons/post.jpg"}
+  = link_to post.message, status_message_path(post)
+  %br
+  = "Created at " + post.created_at.strftime('%m/%d/%Y').to_s
+  %hr
+
+%h2
+  = Comment
+- for comment in @comments
+  %img{:src => "/images/icons/comment.jpg"}
+  = link_to comment.text, status_message_path(comment.post)
+  %br
+  = "Created at " + comment.created_at.strftime('%m/%d/%Y').to_s
+  %hr

@@ -1,0 +1,14 @@
+-#added by star for show all events
+- for event in events
+  %div{:id => event.id}
+    %img{:src => "/images/icons/event.jpg"}
+    %b
+      = event.content
+    %br
+    = "by " + event.user.name
+    %br
+    = "from " + event.from_date + " " + event.from_time + " to " +  event.to_date + " " + event.to_time
+    %br
+    = "Location: " + event.location
+    %br
+    = render 'shared/event', :event => event

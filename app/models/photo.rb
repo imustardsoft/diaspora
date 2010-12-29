@@ -60,11 +60,11 @@ class Photo < Post
 
   def self.instantiate(params = {})
     photo = super(params)
-    image_file = params.delete(:user_file)
-    photo.type = params.delete(:type)
-    photo.title = params.delete(:title)
     photo.random_string = gen_random_string(10)
-    if photo.type == "image"
+    image_file = params.delete(:user_file)
+    photo.title = params.delete(:title)
+    if ["jpg", "jpeg", "gif", "png"].include?photo.title.split(".")[-1]
+      photo.type = "image"
       photo.image.store! image_file
     else
       photo.document.store! image_file
@@ -145,7 +145,7 @@ class Photo < Post
 #  end
   def as_json(opts={})
     {
-      :ms_attachment => {
+      :photo => {
         :type => self.type,
         :id => self.id,
         :url => self.url(:thumb_medium),

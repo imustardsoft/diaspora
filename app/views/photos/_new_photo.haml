@@ -50,10 +50,10 @@
         $('#fileInfo').text(fileName + ' completed').fadeOut(2000);
         $("#publisher_spinner").fadeOut(100);
         $('#file-upload').removeClass("loading");
-        var type = responseJSON.data.ms_attachment.type
-        var id = responseJSON.data.ms_attachment.id;
-        var url = responseJSON.data.ms_attachment.url;
-        var title = responseJSON.data.ms_attachment.title;
+        var type = responseJSON.data.photo.type
+        var id = responseJSON.data.photo.id;
+        var url = responseJSON.data.photo.url;
+        var title = responseJSON.data.photo.title;
         if (type == "image"){
           $('#photodropzone').append("<li><img src='" + url +"' data-id='" + id + "' /></li>");
         }

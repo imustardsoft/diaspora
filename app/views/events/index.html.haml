@@ -1,14 +1,2 @@
-- for event in @events
-  %div{:id => event.id}
-    %img{:src => "/images/event.jpg"}
-    %b
-      = event.content
-    %span.arrow ➔
-    = event_aspect_badge(event.aspect)
-
-    %br
-    = "by " + event.user.name
-    = event.created_at.strftime('%m/%d/%Y')
-    %br
-    = render 'shared/event', :event => event
+= render 'shared/event_all', :events => @events
 = will_paginate @events

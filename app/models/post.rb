@@ -66,6 +66,22 @@ class Post
     false
   end
 
+  ############ by star#################
+  def self.search(query)
+    return [] if query.to_s.empty?
+    query_tokens = query.to_s.strip.split(" ")
+    full_query_text = Regexp.escape(query.to_s.strip)
+
+    p = []
+
+    query_tokens.each do |token|
+      q = Regexp.escape(token.to_s.strip)
+      p = self.all('tags' => /^#{q}/i, 'limit' => 30)
+    end
+
+    return p
+  end
+  ############### end ########################
   protected
   def destroy_comments
     comments.each{|c| c.destroy}

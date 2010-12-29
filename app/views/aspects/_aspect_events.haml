@@ -5,6 +5,10 @@
       changeMonth: true,
       changeYear: true
     });
+
+    $('.timepicker').timepicker({
+        timeSeparator: ':'
+    })
   });
 
 %a.event_form
@@ -16,25 +20,18 @@
     = event.hidden_field :aspect_id, :value => aspect.id
     = "Title:"
     = event.text_field :content
-    = "Time:"
+    = "Time(from):"
     %br
     = event.text_field :from_date, :class => "datepicker", :size => 5
-    = "to"
+    = event.text_field :from_time, :class => "timepicker"
+    = "Time(to):"
     = event.text_field :to_date, :class => "datepicker"
+    = event.text_field :to_time, :class => "timepicker"
     = "Location:"
     = event.text_field :location
     = event.submit
 
 - events = aspect.events.sort("created_at desc").limit(2)
-- for event in events
-  %div{:id => event.id}
-    %img{:src => "/images/event.jpg"}
-    %b
-      = event.content
-    %br
-    = "by " + event.user.name
-    %br
-    = "from " + event.from_date + " to " +  event.to_date
-    %br
-    = render 'shared/event', :event => event
+= render 'shared/event_all', :events => events
+
     

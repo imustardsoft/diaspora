@@ -37,7 +37,7 @@
 
 
       -################## by star ##############################
-      %img{:src => "/images/like.png"}
+      %img{:src => "/images/icons/like.png"}
       - unless post.like_users.include?current_user
         %a{:class => "like_this", :data => post.id, :type => "like"}
           = "Like"
@@ -52,7 +52,7 @@
     %div{:class => "like-people"}
       %span.people_count
         - if post.like_users.count > 0
-          %img{:src => "/images/like.png"}
+          %img{:src => "/images/icons/like.png"}
           - if post.like_users.include?(current_user)
             - if post.like_users.count == 1
               = "I like this post"

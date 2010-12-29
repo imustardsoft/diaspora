@@ -26,6 +26,7 @@ class Comment
   xml_reader :_id
 
   key :text,      String
+  key :tags,      Array #added by star, for index of database
   key :post_id,   ObjectId
   key :person_id, ObjectId
   key :diaspora_handle, String
@@ -37,11 +38,29 @@ class Comment
   validates_with HandleValidator
 
   before_save do
+    self.tags = self.text.split(" ") #added by star for index of database
     get_youtube_title text
   end
 
   timestamps!
 
+  ############ by star#################
+  def self.search(query)
+    return [] if query.to_s.empty?
+    query_tokens = query.to_s.strip.split(" ")
+    full_query_text = Regexp.escape(query.to_s.strip)
+
+    p = []
+
+    query_tokens.each do |token|
+      q = Regexp.escape(token.to_s.strip)
+      p = self.all('tags' => /^#{q}/i, 'limit' => 30)
+    end
+
+    return p
+  end
+  ############### end ########################
+  
   def notification_type(user, person)
     if self.post.diaspora_handle == user.diaspora_handle
       return "comment_on_post"

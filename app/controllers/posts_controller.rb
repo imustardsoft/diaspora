@@ -3,12 +3,17 @@
 #   the COPYRIGHT file.
 
 class PostsController < ApplicationController
-  skip_before_filter :set_contacts_notifications_and_status
-  skip_before_filter :count_requests
-  skip_before_filter :set_invites
-  skip_before_filter :set_locale
-
+#  skip_before_filter :set_contacts_notifications_and_status
+#  skip_before_filter :count_requests
+#  skip_before_filter :set_invites
+#  skip_before_filter :set_locale
+  before_filter :authenticate_user!
   ################ by star##########################
+  def index
+    @posts = Post.search(params[:q])
+    @comments = Comment.search(params[:q])
+  end
+
   def update
     post = Post.find(params[:id])
     if params[:type] == "like"

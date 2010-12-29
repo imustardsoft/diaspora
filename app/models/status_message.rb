@@ -12,7 +12,7 @@ class StatusMessage < Post
   xml_name :status_message
   xml_reader :message
 
-  key :tags, Array
+  key :tags, Array #added by star for index of db
   key :message, String
   many :photos, :class => Photo, :foreign_key => :status_message_id, :dependent => :destroy
   validate :message_or_photos_present?
@@ -20,6 +20,7 @@ class StatusMessage < Post
   attr_accessible :message
 
   before_save do
+    self.tags = self.message.split(" ") # added by star for the index
     get_youtube_title message
   end
   def to_activity

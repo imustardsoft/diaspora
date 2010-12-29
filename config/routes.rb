@@ -11,7 +11,7 @@ Diaspora::Application.routes.draw do
   resources :notifications
   ############# by star ######################
   #resources :posts,           :only => [:show], :path => '/p/'
-  resources :posts,           :only => [:show, :update], :path => '/p/'
+  resources :posts,           :only => [:index, :show, :update], :path => '/p/'
 
   resources :events
   ################### end #####################

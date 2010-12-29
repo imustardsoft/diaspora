@@ -28,6 +28,7 @@ javascripts:
     - public/javascripts/vendor/mailchimp/jquery126.min.js
   aspects:
     - public/javascripts/vendor/jquery-ui-1.8.6.custom.min.js
+    - public/javascripts/vendor/jquery.ui.timepicker.js
     - public/javascripts/aspect-edit.js
     - public/javascripts/contact-list.js
   people:

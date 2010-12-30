@@ -7,7 +7,9 @@
 
   %span.aspect_contact_count{:style=>"color:#999;font-size:14px;"}
     = t('contacts', :count=>@aspect_contacts_count)
-    = link_to t('.edit_aspect'), "#", :id => "edit_aspect_trigger"
+    -#the confition added by star, if the aspect is not the current user, notes the edit link
+    - if @aspect.user == current_user
+      = link_to t('.edit_aspect'), "#", :id => "edit_aspect_trigger"
 
 .span-8.append-1
   = render 'aspects/aspect_contacts', :contacts => @aspect_contacts, :aspect => @aspect

@@ -16,7 +16,7 @@
 = link_to "See All", events_path
 %br
 %div#event_form.hidden
-  = form_for (Event.new, :remote => true) do |event|
+  = form_for(Event.new, :remote => true) do |event|
     = event.hidden_field :aspect_id, :value => aspect.id
     = "Title:"
     = event.text_field :content

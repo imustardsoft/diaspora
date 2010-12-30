@@ -126,8 +126,9 @@ class AspectsController < ApplicationController
   def add_to_aspect
     @person = Person.find(params[:person_id])
     @aspect = current_user.aspects.find(params[:aspect_id])
+    # by star, invite user must generate a request, so set contact is false
     #@contact = current_user.contact_for(@person)
-    @contact = false # by star, invite user must generate a request
+    @contact = false 
     if @contact
       current_user.add_contact_to_aspect(@contact, @aspect)
     else

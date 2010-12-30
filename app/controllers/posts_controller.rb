@@ -7,7 +7,7 @@ class PostsController < ApplicationController
 #  skip_before_filter :count_requests
 #  skip_before_filter :set_invites
 #  skip_before_filter :set_locale
-  before_filter :authenticate_user!
+  before_filter :authenticate_user! # added by star
   ################ by star##########################
   def index
     @posts = Post.search(params[:q])

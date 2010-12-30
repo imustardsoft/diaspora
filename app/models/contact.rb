@@ -23,6 +23,15 @@ class Contact
   key :aspect_ids, Array, :typecast => 'ObjectId'  
   many :aspects, :in => :aspect_ids, :class_name => 'Aspect'
 
+  def find_aspects
+    contacts = self.user.contacts(:person_id => self.person_id)
+    aspects = []
+    for contact in contacts
+      aspects += contact.aspects
+    end
+    aspects
+  end
+  
   def dispatch_request
     request = self.generate_request
     self.user.push_to_people(request, [self.person])

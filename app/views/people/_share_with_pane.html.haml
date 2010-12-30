@@ -5,16 +5,19 @@
 .contact_list#aspects_list
   %ul
     - for aspect in aspects_with_person
-      %li{:data=>{:guid=>aspect.id}}
-        %span.name
-          = link_to aspect.name, aspect
-        .right
-          = aspect_membership_button(aspect.id, contact, person)
+      -# the following one line is added by star
+      - if current_user == aspect.user
+        %li{:data=>{:guid=>aspect.id}}
+          %span.name
+            = link_to aspect.name, aspect
+          .right
+            = aspect_membership_button(aspect.id, contact, person)
 
     - for aspect in aspects_without_person
-      %li{:data=>{:guid=>aspect.id}}
-        %span.name
-          = link_to aspect.name, aspect
-        .right
-          = aspect_membership_button(aspect.id, contact, person)
-
+      -# the following one line is added by star
+      - if current_user == aspect.user
+        %li{:data=>{:guid=>aspect.id}}
+          %span.name
+            = link_to aspect.name, aspect
+          .right
+            = aspect_membership_button(aspect.id, contact, person)

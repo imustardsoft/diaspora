@@ -36,7 +36,14 @@ module AspectsHelper
   end
 
   def aspect_membership_button(aspect_id, contact, person)
-    if contact.nil? || !contact.aspect_ids.include?(aspect_id)
+#    if contact.nil? || !contact.aspect_ids.include?(aspect_id)
+#      add_to_aspect_button(aspect_id, person.id)
+#    else
+#      remove_from_aspect_button(aspect_id, person.id)
+#    end
+    
+    aspect = Aspect.find(aspect_id)
+    unless aspect.visible_users.include?(person.owner)
       add_to_aspect_button(aspect_id, person.id)
     else
       remove_from_aspect_button(aspect_id, person.id)

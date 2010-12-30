@@ -45,7 +45,6 @@ module Diaspora
 
       def contact_for_person_id(person_id)
         contacts.first(:person_id => person_id.to_id) if person_id
-
       end
 
       def contacts_not_in_aspect( aspect ) 

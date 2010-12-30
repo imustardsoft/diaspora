@@ -53,7 +53,9 @@ class PeopleController < ApplicationController
       @aspects_with_person = []
 
       if @contact
-        @aspects_with_person = @contact.aspects
+        #by star, find find all the aspects
+        #@aspects_with_person = @contact.aspects
+        @aspects_with_person = @contact.find_aspects
         @similar_people = similar_people @contact
       end
 
@@ -105,8 +107,6 @@ class PeopleController < ApplicationController
   end
 
   def retrieve_remote
-    puts  params[:diaspora_handle]
-    puts 11111
     if params[:diaspora_handle]
       webfinger(params[:diaspora_handle], :single_aspect_form => true)
       render :nothing => true

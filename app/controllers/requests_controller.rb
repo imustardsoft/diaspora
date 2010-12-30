@@ -38,8 +38,8 @@ class RequestsController < ApplicationController
       else
         current_user.ignore_contact_request params[:id]
         flash[:notice] = I18n.t 'requests.destroy.ignore'
-        head :ok
       end
+      render :text => Request.to(current_user.person).count
     end
   end
       

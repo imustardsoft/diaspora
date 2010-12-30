@@ -10,7 +10,9 @@ module RequestsHelper
 
   def new_request_link(request_count)
     if request_count > 0
-        link_to t('new_requests', :count => @request_count), aspects_manage_path
+      # changed by star, delete the link to manage page
+      # link_to t('new_requests', :count => @request_count), aspects_manage_path
+      t('new_requests', :count => @request_count)
     end
   end
 end

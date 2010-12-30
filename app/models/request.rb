@@ -17,8 +17,8 @@ class Request
   belongs_to :to,   :class => Person
 
   validates_presence_of :from, :to
-  validates_uniqueness_of :from_id, :scope => :to_id
   #notes by star, for sent request
+  #validates_uniqueness_of :from_id, :scope => :to_id
   #validate :not_already_connected
   validate :not_friending_yourself
 

@@ -15,7 +15,7 @@
     - if contact
       - aspect = Aspect.first(:id => contact.aspect_ids)
       = r.from.name + " invite you to join " + aspect.name + " aspect"
-      %a{:class => "accept_invite", :request_id => r.id, :contact_id => contact.id, :type => "yes"}
+      %a{:class => "accept_invite", :request_name => aspect.name, :request_id => r.id, :contact_id => contact.id, :type => "yes"}
         = "Accept "
       = " | "
       %a{:class => "ignore_invite", :request_id => r.id, :type => "no"}

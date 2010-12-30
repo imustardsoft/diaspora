@@ -9,13 +9,28 @@ var Stream = {
     //for accept or ignore request
     $(".accept_invite").click(function(){
       request_id = $(this).attr("request_id");
+      requesr_name = $(this).attr("request_name");
       contact_id = $(this).attr("contact_id");
       type = $(this).attr("type");
-      $(this).parent().remove();
+      current = $(this).parent()
       $.ajax({
         type: "DELETE",
         url: "/requests/" + request_id,
-        data:{"contact_id":contact_id, "type":type}
+        data:{"contact_id":contact_id, "type":type},
+        success: function(data){
+          current.remove();
+          node = $("#aspect_nav").find("ul");
+          nav = node.html();
+          node.html("").append(nav+"<li><a href='/aspects/"+request_id+"'>"+requesr_name+"</a></li>")
+          if (data == 0){
+            $("#new_request_pane").html("");
+            $(".new_requests").text("Home");
+          }
+          else{
+            $(".new_requests").text("Home("+data+")");
+            $("#new_request_pane").html("").append("<h1 class='new_request' style='text-align:center'>"+data+" new requests!</h1>")
+          }
+        }
       });
     });
     $(".ignore_invite").click(function(){
@@ -25,7 +40,10 @@ var Stream = {
       $.ajax({
         type: "DELETE",
         url: "/requests/" + request_id,
-        data:{"type":type}
+        data:{"type":type},
+        success: function(){
+          
+        }
       });
     });
     //for like or dislike

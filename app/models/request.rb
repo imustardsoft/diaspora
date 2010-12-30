@@ -18,7 +18,8 @@ class Request
 
   validates_presence_of :from, :to
   validates_uniqueness_of :from_id, :scope => :to_id
-  validate :not_already_connected
+  #notes by star, for sent request
+  #validate :not_already_connected
   validate :not_friending_yourself
 
   scope :from, lambda { |person|

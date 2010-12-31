@@ -57,12 +57,15 @@
             - if post.like_users.count == 1
               = "I like this post"
             - else
-              = "You and " + (post.like_users.count-1).to_s + "people like this post"
+              %a.list
+                = "I and " + (post.like_users.count-1).to_s + "people like this post"
           - else
-            = post.like_users.count.to_s + "people like this post"
+            %a.list
+              = post.like_users.count.to_s + "people like this post"
       %div.people_list.hidden
         - for user in post.like_users
-          = user.name + ","
+          - if user.name != current_user.name
+            = person_link(user.person)
       -################## end ##############################
 
     = render "comments/comments", :post_id => post.id, :comment_hashes => comments, :condensed => true, :commenting_disabled => defined?(@commenting_disabled)

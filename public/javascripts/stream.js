@@ -71,10 +71,6 @@ var Stream = {
     $(".list").live("click", function(){
       $(this).parent().next().removeClass("hidden");
     });
-
-    $(".dislike-count").live("click",function(){
-      $(this).parent().next().next().removeClass("hidden");
-    });
     //////////////////////////////by star, for create event///////////////////////
     $(".event_form").live("click", function(){
       var status = $("#event_form").attr("class");

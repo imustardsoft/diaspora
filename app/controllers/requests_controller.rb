@@ -25,21 +25,18 @@ class RequestsController < ApplicationController
 #      flash[:notice] = I18n.t 'requests.destroy.ignore'
 #      head :ok
       # by star, add the following that invitee can accept or ignore
+      contact = Contact.find(params[:id])
       if params[:type] == "yes"
-        request = Request.find(params[:id])
-        contact = Contact.find(params[:contact_id])
         aspect = Aspect.find_by_name(contact.aspects.to_s)
         aspect.visible_users << current_user
         aspect.save
         current_user.visible_aspects << aspect
         current_user.save
-        request.destroy
         contact.update_attributes(:pending => false)
       else
-        current_user.ignore_contact_request params[:id]
-        flash[:notice] = I18n.t 'requests.destroy.ignore'
+        contact.destroy
       end
-      render :text => Request.to(current_user.person).count
+      render :text => Contact.all(:person_id => current_user.person.id, :pending => true).count
     end
   end
       

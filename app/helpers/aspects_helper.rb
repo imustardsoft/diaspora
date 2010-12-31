@@ -44,7 +44,11 @@ module AspectsHelper
     
     aspect = Aspect.find(aspect_id)
     unless aspect.visible_users.include?(person.owner)
-      add_to_aspect_button(aspect_id, person.id)
+      if contact.pending == true
+        "pending"
+      else
+        add_to_aspect_button(aspect_id, person.id)
+      end
     else
       remove_from_aspect_button(aspect_id, person.id)
     end

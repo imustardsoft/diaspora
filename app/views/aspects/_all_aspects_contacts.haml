@@ -8,17 +8,17 @@
       = new_request_link(@request_count)
 
 -# by star, list all the current user's requests
-- requests = Request.all(:to_id => current_user.person.id)
-- for r in requests
-  %div
-    - contact = Contact.first(:person_id => r.to_id, :user_id => r.from.owner_id, :pending => true)
-    - if contact
-      - aspect = Aspect.first(:id => contact.aspect_ids)
-      = r.from.name + " invite you to join " + aspect.name + " aspect"
-      %a{:class => "accept_invite", :request_name => aspect.name, :request_id => r.id, :contact_id => contact.id, :type => "yes"}
+%ul
+  - @contacts = Contact.all(:person_id => current_user.person.id, :pending => true) if current_user
+  - for contact in @contacts
+    %li
+      - aspect = contact.aspects.first
+      = contact.user.name + " invite you to join " + aspect.name + " aspect"
+      %br
+      %a{:class => "accept_invite", :aspect_id => aspect.id, :aspect_name => aspect.name, :contact_id => contact.id, :type => "yes"}
         = "Accept "
       = " | "
-      %a{:class => "ignore_invite", :request_id => r.id, :type => "no"}
+      %a{:class => "ignore_invite", :contact_id => contact.id, :type => "no"}
         = "Ignore"
 
 

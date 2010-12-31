@@ -35,7 +35,10 @@ class ApplicationController < ActionController::Base
   end
 
   def count_requests
-    @request_count = Request.to(current_user.person).count if current_user
+    #by star, count the contacts for current user
+    #@request_count = Request.to(current_user.person).count if current_user
+    @contacts = Contact.all(:person_id => current_user.person.id, :pending => true) if current_user
+    @request_count = @contacts.count
   end
 
   def set_invites

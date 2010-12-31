@@ -159,7 +159,6 @@ class AspectsController < ApplicationController
       @person_id = params[:person_id]
       @aspect_id = params[:aspect_id]
       flash.now[:notice] = I18n.t 'aspects.remove_from_aspect.success'
-
       respond_to do |format|
         format.js { render :json => {:button_html =>
           render_to_string(:partial => 'aspects/remove_from_aspect',

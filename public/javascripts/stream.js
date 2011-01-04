@@ -35,12 +35,23 @@ var Stream = {
     });
     $(".ignore_invite").click(function(){
       var contact_id = $(this).attr("contact_id");
-      type = $(this).attr("type");
-      $(this).parent().remove();
+      var type = $(this).attr("type");
+      var current = $(this).parent();
       $.ajax({
         type: "DELETE",
         url: "/requests/" + contact_id,
-        data:{"type":type}
+        data:{"type":type},
+        success: function(data){
+          current.remove();
+          if (data == 0){
+            $("#new_request_pane").html("");
+            $(".new_requests").text("Home");
+          }
+          else{
+            $(".new_requests").text("Home("+data+")");
+            $("#new_request_pane").html("").append("<h1 class='new_request' style='text-align:center'>"+data+" new requests!</h1>")
+          }
+        }
       });
     });
     //for like or dislike

@@ -1,6 +1,9 @@
-= "Yes: " + event.yes_users.count.to_s
-= " No: " + event.no_users.count.to_s
-= " Maybe: " + event.maybe_users.count.to_s
+%span
+  = "Yes: " + event.yes_users.count.to_s
+%span
+  = " No: " + event.no_users.count.to_s
+%span
+  = " Maybe: " + event.maybe_users.count.to_s
 %br
 = "RSVP:"
 - if current_user.vote_events.include?(event)

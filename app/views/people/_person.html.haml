@@ -7,10 +7,6 @@
   .right{:style=>"display:inline;"}
     - if person.owner_id == current_user.id
       = t('.thats_you')
-    - elsif contact && !contact.pending
-      = t('.already_connected')
-    - elsif (contact && contact.pending) || request
-      = t('.pending_request')
     - else
       - single_aspect_form ||= nil
       = link_to "start sharing",

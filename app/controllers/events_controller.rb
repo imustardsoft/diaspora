@@ -25,12 +25,21 @@ class EventsController < ApplicationController
 
   def update
     event = Event.find(params[:id])
-    event.yes_users << current_user if params[:type] == "Yes"
-    event.no_users << current_user if params[:type] == "No"
-    event.maybe_users << current_user if params[:type] == "Maybe"
-    render :text => "ok" if event.save
+    count = 0
+    if params[:type] == "Yes"
+      event.yes_users << current_user
+      count = event.yes_users.count
+    elsif params[:type] == "No"
+      event.no_users << current_user
+      count = event.no_users.count
+    else
+      event.maybe_users << current_user
+      count = event.maybe_users.count
+    end
+    event.save
     current_user.vote_events << event
     current_user.save
+    render :text => count
   end
   
   def index

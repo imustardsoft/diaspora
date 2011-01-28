@@ -108,15 +108,12 @@ var Stream = {
         success: function (data) {
           var count = ""
           if (type == "Yes"){
-            alert(1);
             count = node.parent().find(".yes_count");
           }
           if (type == "No"){
-            alert(2);
             count = node.parent().find(".no_count");
           }
           if (type == "Maybe"){
-            alert(3);
             count = node.parent().find(".maybe_count");
           }
           count.html("").append(data);

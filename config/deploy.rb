@@ -82,6 +82,7 @@ namespace :deploy do
       run("mkdir -p -v #{current_path}/log/db/ ")
       run("mkdir -p -v #{shared_path}/db/")
       run("mongod  --fork --logpath #{current_path}/log/db/mongolog.txt --dbpath #{shared_path}/db/ " )
+
   end
 
   task :start_thin do

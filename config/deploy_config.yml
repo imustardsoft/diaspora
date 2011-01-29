@@ -3,16 +3,27 @@
 #   the COPYRIGHT file.
 
 cross_server:
-  deploy_to: '/home/xu/apps/diaspora'
-  user: 'xu'
-  port: 33891
-  repo: 'git://github.com/imustardsoft/diaspora.git'
-  branch: 'master'
+  deploy_to: '/usr/local/app/diaspora'
+  user: 'root'
+  repo: 'git://github.com/diaspora/diaspora.git'
+  branch: 'public-permalinks'
   default_env: 'development'
 servers:
   tom:
-    - url: 'symposium.bayshorenetworks.com'
+    - url: 'tom.joindiaspora.com'
   backer:
-    - username: 'xu'
-
-
+    - username: 'jackson'
+      given_name: 'Andrew'
+      family_name: 'Jackson'
+      number: 0
+      pin: 8670
+    - username: 'tyler'
+      given_name: 'John'
+      family_name: 'Tyler'
+      number: 1
+      pin: 6431
+    - username: 'polk'
+      given_name: 'James K.'
+      family_name: 'Polk'
+      number: 2
+      pin: 1957

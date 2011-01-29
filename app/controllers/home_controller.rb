@@ -9,7 +9,8 @@ class HomeController < ApplicationController
       redirect_to aspects_path
     else
       @landing_page = true
-      render :show
+      #render :show
+      redirect_to new_user_session_path
     end
   end
 

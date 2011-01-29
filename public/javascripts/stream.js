@@ -80,6 +80,22 @@ var Stream = {
       $(this).parent().next().removeClass("hidden");
     });
     //////////////////////////////by star, for create event///////////////////////
+    $(".yes_count").live("click", function(){
+      $(this).parent().find(".no_disploy").addClass("hidden");
+      $(this).parent().find(".maybe_disploy").addClass("hidden");
+      $(this).parent().find(".yes_disploy").removeClass("hidden");
+    })
+    $(".no_count").live("click", function(){
+      $(this).parent().find(".yes_disploy").addClass("hidden");
+      $(this).parent().find(".maybe_disploy").addClass("hidden");
+      $(this).parent().find(".no_disploy").removeClass("hidden");
+    })
+    $(".maybe_count").live("click", function(){
+      $(this).parent().find(".yes_disploy").addClass("hidden");
+      $(this).parent().find(".no_disploy").addClass("hidden");
+      $(this).parent().find(".maybe_disploy").removeClass("hidden");
+    })
+
     $(".event_form").live("click", function(){
       var status = $("#event_form").attr("class");
       if (status == "hidden"){

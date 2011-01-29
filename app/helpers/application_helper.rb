@@ -49,7 +49,7 @@ module ApplicationHelper
   end
 
   def current_user_event_type event
-    str = "you select "
+    str = "you selected "
     str += "<b>Yes</b><hr>" if event.yes_users.include?(current_user)
     str += "<b>No</b><hr>" if event.no_users.include?(current_user)
     str += "<b>Maybe</b><hr>" if event.maybe_users.include?(current_user)

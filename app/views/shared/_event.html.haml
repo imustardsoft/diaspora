@@ -1,13 +1,24 @@
 = "Yes: "
-%span.yes_count
+%a.yes_count
   = event.yes_users.count.to_s
 = " No: "
-%span.no_count
+%a.no_count
   = event.no_users.count.to_s
 = " Maybe: "
-%span.maybe_count
+%a.maybe_count
   = event.maybe_users.count.to_s
-%br
+
+.div{:class => "disploy_user"}
+  .div{:class => "yes_disploy hidden"}
+    - for u in event.yes_users
+      = person_link(u.person)
+  .div{:class => "no_disploy hidden"}
+    - for u in event.no_users
+      = person_link(u.person)
+  .div{:class => "maybe_disploy hidden"}
+    - for u in event.maybe_users
+      = person_link(u.person)
+
 = "RSVP:"
 - if current_user.vote_events.include?(event)
   = current_user_event_type(event)

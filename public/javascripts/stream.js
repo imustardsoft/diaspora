@@ -133,7 +133,7 @@ var Stream = {
             count = node.parent().find(".maybe_count");
           }
           count.html("").append(data);
-          node.html("").append("you select <b>" + type+"</b><hr>");
+          node.html("").append("You selected <b>" + type+"</b><hr>");
         }
       });
     });

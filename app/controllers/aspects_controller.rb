@@ -12,7 +12,7 @@ class AspectsController < ApplicationController
   def index
     # by star, override the @posts, that the current user can see all the post
     #@posts  = current_user.visible_posts(:_type => "StatusMessage").paginate :page => params[:page], :per_page => 15, :order => 'created_at DESC'
-    @posts = Post.all(:aspect_ids => @aspects.map{|a| a.id}, :_type => "StatusMessage").paginate :page => params[:page], :per_page => 15, :order => 'created_at DESC'
+    @posts = Post.all(:aspect_ids => @aspects.map{|a| a.id}, :_type => "StatusMessage", :order => 'created_at DESC').paginate :page => params[:page], :per_page => 15
     @post_hashes = hashes_for_posts @posts
     
     @contacts = Contact.all(:user_id => current_user.id, :pending => false)

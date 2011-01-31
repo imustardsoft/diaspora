@@ -194,7 +194,11 @@ class User
 #      aspect.posts << post
 #      aspect.save
 #    end
-    aspects = self.visible_aspects.all(:id.in => aspect_ids)
+
+    # aspects = self.visible_aspects.all(:id.in => aspect_ids)
+    # changed to ensure that only the relevant aspects are returned 1/31/2011
+    aspects = aspects_from_ids(aspect_ids)
+    
     aspects.each do |aspect|
         aspect.posts << post
         aspect.save
@@ -203,13 +207,14 @@ class User
 
   def aspects_from_ids(aspect_ids)
     if aspect_ids == "all" || aspect_ids == :all
-      self.aspects
+      self.visible_aspects
     else
       if aspect_ids.respond_to? :to_id
         aspect_ids = [aspect_ids]
       end
       aspect_ids.map!{ |x| x.to_id }
       aspects.all(:id.in => aspect_ids)
+      self.visible_aspects.select {|s| aspect_ids.include?(s.id) }
     end
   end
 

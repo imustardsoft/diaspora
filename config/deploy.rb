@@ -68,12 +68,17 @@ namespace :deploy do
     run "ln -s -f #{shared_path}/oauth_keys.yml #{current_path}/config/oauth_keys.yml"
   end
 
-   task :start do
+  task :start do
       start_mongo
       start_thin
       start_websocket
+      start_redis
   end
 
+  task :start_redis do
+    run("redis-server")
+  end
+  
   task :start_websocket do
     run("cd #{current_path} && bundle exec ruby ./script/websocket_server.rb > /dev/null&")
   end

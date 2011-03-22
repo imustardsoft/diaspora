@@ -164,8 +164,8 @@ module ApplicationHelper
       link_to person_image_tag(person, opts[:size]), person_photos_path(person)
     else
       "<a href='/people/#{person.id}'>
-  #{person_image_tag(person)}
-</a>".html_safe
+        #{person_image_tag(person)}
+      </a>".html_safe
     end
   end
 

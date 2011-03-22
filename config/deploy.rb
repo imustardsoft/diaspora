@@ -72,11 +72,6 @@ namespace :deploy do
       start_mongo
       start_thin
       start_websocket
-      start_redis
-  end
-
-  task :start_redis do
-    run("redis-server")
   end
   
   task :start_websocket do
